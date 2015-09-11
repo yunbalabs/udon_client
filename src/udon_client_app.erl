@@ -1,13 +1,14 @@
 -module(udon_client_app).
 
 %% Application callbacks
--export([start/1, stop/1]).
+-export([start/0, stop/1]).
 
 %% ===================================================================
 %% Application callbacks
 %% ===================================================================
 
-start(UdonInstances) ->  %% UdonInstances = [{udon1, {"localhost", 6380, 10, 20}}]
+start() ->  %% UdonInstances = [{udon1, {"localhost", 6380, 10, 20}}]
+	UdonInstances = application:get_env(udon_client, udon_instances, [{udon1, {"localhost", 6380, 10, 20}}]),
 	init_logic_udon_client_module(UdonInstances).
 
 stop(_State) ->
