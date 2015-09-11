@@ -1,0 +1,12 @@
+{application, udon_client,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { udon_client_app, []}},
+  {env, []}
+ ]}.
