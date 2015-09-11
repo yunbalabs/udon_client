@@ -13,7 +13,6 @@ priv/jiffy.so
 rel/udon_client
 deps
 erlcinfo
-rel/files/app.config
 tags
 logs
 *.beam
