@@ -16,21 +16,23 @@
 %% API
 -export([execuate/3, execuate/4, nodeid_exist/1, get_nodeid_randomly/0]).
 
-execuate(Command, {Bucket, Key}, Args) ->
+execuate(Command, {Bucket, Key}, ArgsLists) ->
 	BucketStr = udon_client_utils:to_string(Bucket) ++ ",",
 	KeyStr = udon_client_utils:to_string(Key),
+	ArgsListsStr = [udon_client_utils:to_string(Arg) || Arg <- ArgsLists],
 	RequestNodeId = case ets:lookup(udon_nodeid_key_cache, {BucketStr, KeyStr}) of
 						[{{BucketStr, KeyStr}, NodeId}] ->
 							NodeId;
 						_Else ->
 							get_nodeid_randomly()
 					end,
-	request_for_udon(RequestNodeId, {Command, {BucketStr, KeyStr}, Args}).
+	request_for_udon(RequestNodeId, {Command, {BucketStr, KeyStr}, ArgsListsStr}).
 
-execuate(NodeId, Command, {Bucket, Key}, Args) ->
+execuate(NodeId, Command, {Bucket, Key}, ArgsLists) ->
 	BucketStr = udon_client_utils:to_string(Bucket) ++ ",",
 	KeyStr = udon_client_utils:to_string(Key),
-	request_for_udon(NodeId, {Command, {BucketStr, KeyStr}, Args}).
+	ArgsListsStr = [udon_client_utils:to_string(Arg) || Arg <- ArgsLists],
+	request_for_udon(NodeId, {Command, {BucketStr, KeyStr}, ArgsListsStr}).
 
 nodeid_exist(NodeId) ->
 	case ets:lookup(udon_nodeid_client_maps, NodeId) of
