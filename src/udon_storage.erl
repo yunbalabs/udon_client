@@ -20,7 +20,7 @@ execuate(Command, {Bucket, Key}, Args) ->
 	BucketStr = udon_client_utils:to_string(Bucket) ++ ",",
 	KeyStr = udon_client_utils:to_string(Key),
 	RequestNodeId = case ets:lookup(udon_nodeid_key_cache, {BucketStr, KeyStr}) of
-						[{BucketStr, KeyStr}, NodeId] ->
+						[{{BucketStr, KeyStr}, NodeId}] ->
 							NodeId;
 						_Else ->
 							get_nodeid_randomly()
